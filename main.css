@@ -1,0 +1,30 @@
+#game-field{
+    width: 300px;
+    height: 300px;
+    border: solid 1px black;
+    background: rgb(233, 233, 233);
+    margin: 0 auto;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.excel{
+    width: 10%;
+    height: 10%;
+    box-sizing: border-box;
+    border: dashed 0.25px rgba(155, 155, 155, 0.25);
+}
+
+.snakeBody{
+    background: rgba(95, 95, 95, 0.5);
+}
+
+.head{
+    background: rgb(100, 100, 100);
+}
+
+.apple{
+    background: rgb(255, 0, 0);
+}
