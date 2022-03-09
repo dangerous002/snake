@@ -135,8 +135,8 @@ body{
 }
 
 .control-button{
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
 
 .control-button img{
@@ -153,14 +153,17 @@ body{
 
 #control-button-left{
     transform: rotate(-90deg);
+    padding: 0 10px;
 }
 
 #control-button-down{
     transform: rotate(-180deg);
+    padding: 0 10px;
 }
 
 #control-button-right{
     transform: rotate(-270deg);
+    padding: 0 10px;
 }
 
 @media screen and (min-width: 720px) {
