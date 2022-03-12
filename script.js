@@ -117,8 +117,12 @@ class createSnake{
                 snakeBody[i].classList.add('snakeBody');
             }
             
-            if(document.querySelector('.head').getAttribute('posX') == document.querySelector('#apple').getAttribute('posX') && document.querySelector('.head').getAttribute('posY') == document.querySelector('#apple').getAttribute('posY')){
-                console.log('Dianochka is very tasty!!!');
+            if(document.querySelector('#apple') != null){
+                if(document.querySelector('.head').getAttribute('posX') == document.querySelector('#apple').getAttribute('posX') && document.querySelector('.head').getAttribute('posY') == document.querySelector('#apple').getAttribute('posY')){
+                    console.log('Dianochka is very tasty!!!');
+                    
+                    document.querySelector('#apple').setAttribute('id', '');
+                }
             }
             
             console.log(direction);
@@ -227,6 +231,12 @@ function gameLoop(field = new CreateField, snake = new createSnake, apple = new 
     snake.drawSnake();
     snake.move();
     apple.drawApple();
+
+    setInterval(function(){
+        if(document.querySelector('#apple') === null){
+            apple.drawApple();
+        }
+    }, 250);
 }
 
 let configSubmit = document.getElementById('config-submit');
