@@ -5,6 +5,7 @@ body{
     font-weight: 500;
     background: rgb(68, 68, 68);
     font-family: 'Roboto';
+    overflow: hidden;
 }
 
 .field{
@@ -46,6 +47,7 @@ body{
 .snakeBody{
     background: rgba(107, 107, 107, 0.473);
     border-radius: 15px;
+    border: none;
 }
 
 .snakeHead{
@@ -53,21 +55,64 @@ body{
     position: center center;
     background-size: cover;
     border-radius: 5px;
+    border: none;
 }
+
+#apple{
+    border: none;
+    border-radius: 10px;
+    background-image: url("apple.ico");
+    background-size: cover;
+    background-position: center center;
+    overflow: hidden;
+    transition: 3s ease;
+}
+
+/*buttons*/
 
 .buttons{
     width: 200px;
     height: 125px;
-    background-color: #fff;
     margin: 0 auto;
     display: none;
     opacity: 0;
     margin-top: 75px;
+    flex-wrap: wrap;
 }
 
 #btn-up{
-    width: 100%;
+    padding: 0 33.333%;
+}
+
+.buttons>div{
+    width: 33.333%;
+    background-size: contain;
+    background-repeat: no-repeat;
     height: 50%;
+    background-position: center center;
+}
+
+.buttons>div:hover{
+    cursor: pointer;
+}
+
+#btn-up{
+    background-image: url("arrow.svg");
+}
+
+#btn-left{
+    background-image: url("arrow.svg");
+    transform: rotate(-90deg);
+}
+
+#btn-down{
+    background-image: url("arrow.svg");
+    transform: rotate(-180deg);
+}
+
+#btn-right{
+    background-image: url("arrow.svg");
+    transform: rotate(-270deg);
 }
 
 @media screen and (min-width: 767px){

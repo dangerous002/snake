@@ -27,13 +27,36 @@ class Field{
     }
 }
 
+class Apple{
+    create(){
+        let posX = Math.round(Math.random() * (10 - 1) + 1);
+        let posY = Math.round(Math.random() * (10 - 1) + 1);
+
+        let coordinates = [posX, posY];
+
+        let apple = document.querySelector('[posX = "' + coordinates[0] + '"][posY = "' + coordinates[1] + '"]');
+            
+        while(apple.classList.contains('snakeBody')){
+            apple = document.querySelector('[posX = "' + coordinates[0] + '"][posY = "' + coordinates[1] + '"]');
+        }
+    
+        apple.setAttribute('id', 'apple');
+    }
+    
+    check(){
+        if(document.querySelector('#apple').classList.contains('snakeHead')){
+            return true;
+        }
+    }
+}
+
 class Snake{
     constructor(){
 
     }
 
     create(){
-        let directions = 'right';
+        let direction = 'right';
 
         //getting random position
         let posX = Math.round(Math.random() * (10 - 3) + 3);
@@ -55,7 +78,8 @@ class Snake{
 
         //movement
 
-        function move(snakeBody = snake, direction = directions){
+        function move(snakeBody = snake, directionMove = direction){
+            let direction = directionMove;
             let snakeCordinates = [snakeBody[0].getAttribute('posX'), snakeBody[0].getAttribute('posY')];
             snakeBody[0].classList.remove('snakeHead');
             snakeBody[0].classList.add('snakeBody');
@@ -96,18 +120,56 @@ class Snake{
 
         }
 
+        //listening to keydown of keyboard arrows
         window.addEventListener('keydown', function(e){
-            if (e.keyCode == 37 && directions != 'right' && directions != 'left') {
-                directions = 'left';
+            if (e.keyCode == 37 && direction != 'right' && direction != 'left') {
+                direction = 'left';
             }
-            else if (e.keyCode == 38 && directions != 'down' && directions != 'up') {
-                directions = 'up';
+            else if (e.keyCode == 38 && direction != 'down' && direction != 'up') {
+                direction = 'up';
             }
-            else if (e.keyCode == 39 && directions != 'left' && directions != 'right') {
-                directions = 'right';
+            else if (e.keyCode == 39 && direction != 'left' && direction != 'right') {
+                direction = 'right';
             }
-            else if (e.keyCode == 40 && directions != 'up' && directions != 'down') {
-                directions = 'down';
+            else if (e.keyCode == 40 && direction != 'up' && direction != 'down') {
+                direction = 'down';
+            }
+        });
+
+        //listening to click of screen arrows
+        for(let index = 0; index < 4; index++){
+            $('.buttons>div')[index].addEventListener('click', function(event){
+                if($('.buttons>div')[index].getAttribute('direction') == 'up' && direction != 'down' && direction != 'up'){
+                    direction = 'up';
+                }
+            });
+            $('.buttons>div')[index].addEventListener('click', function(event){
+                if($('.buttons>div')[index].getAttribute('direction') == 'left' && direction != 'right' && direction != 'left'){
+                    direction = 'left';
+                }
+            });
+            $('.buttons>div')[index].addEventListener('click', function(event){
+                if($('.buttons>div')[index].getAttribute('direction') == 'down' && direction != 'up' && direction != 'down'){
+                    direction = 'down';
+                }
+            });
+            $('.buttons>div')[index].addEventListener('click', function(event){
+                if($('.buttons>div')[index].getAttribute('direction') == 'right' && direction != 'left' && direction != 'right'){
+                    direction = 'right';
+                }
+            });
+        }
+
+        //listening for WASD buttons of keyboard
+        window.addEventListener('keydown', function(event){
+            if (event.keyCode == '87' && direction != 'down' && direction != 'up') {
+                direction = 'up';
+            } else if (event.keyCode == '65' && direction != 'right' && direction != 'left') {
+                direction = 'left';
+            } else if (event.keyCode == '83' && direction != 'up' && direction != 'down') {
+                direction = 'down';
+            } else if (event.keyCode == '68' && direction != 'left' && direction != 'right') {
+                direction = 'right';
             }
         });
         
@@ -119,12 +181,21 @@ class Snake{
 //creating objects
 let fieldObj = new Field;
 let snakeObj = new Snake;
+let appleObj = new Apple;
 
 //creating main function
-function gameLoop(field = fieldObj, snake = snakeObj){
+function gameLoop(field = fieldObj, snake = snakeObj, apple = appleObj){
     
     field.create();
     snake.create();
+    apple.create();
+
+    setInterval(function(){
+        if(apple.check()){
+            $('#apple').removeAttr('id');
+            apple.create();
+        }
+    }, 200);
     
 }
 
@@ -142,6 +213,16 @@ function removeStyles(){
         });
     }, 1000);
     
+}
+
+function giveStyles(){
+    $('.field').css({
+        'opacity':'1',
+        'box-shadow':'5px 5px 5px #000',
+    });
+    $('.buttons').css({
+        'opacity':'1',
+    });
 }
 
 //on document ready
@@ -166,14 +247,7 @@ $(document).ready(function(){
         
         //waiting 2 seconds and compilate code
         setTimeout(function(){
-            $('.field').css({
-                'opacity':'1',
-                'box-shadow':'5px 5px 5px #000',
-            });
-            $('.buttons').css({
-                'opacity':'1',
-            });
-
+            giveStyles();
             gameLoop();
         }, 2000);
 
