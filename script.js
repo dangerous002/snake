@@ -28,6 +28,10 @@ class Field{
 }
 
 class Apple{
+    constructor(){
+
+    }
+
     create(){
         let posX = Math.round(Math.random() * (10 - 1) + 1);
         let posY = Math.round(Math.random() * (10 - 1) + 1);
@@ -42,17 +46,11 @@ class Apple{
     
         apple.setAttribute('id', 'apple');
     }
-    
-    check(){
-        if(document.querySelector('#apple').classList.contains('snakeHead')){
-            return true;
-        }
-    }
 }
 
 class Snake{
     constructor(){
-
+        this.name = 'snake';
     }
 
     create(){
@@ -72,7 +70,7 @@ class Snake{
             snakeBody[i].classList.add('snakeBody');
         }
         
-        snakeBody[0].classList.add('snakeHead');
+        snakeBody[0].setAttribute('id', 'snakeHead');
 
         let snake = snakeBody;
 
@@ -114,8 +112,31 @@ class Snake{
             } 
 
             snakeBody[0].classList.add('snakeHead');
-            for(let i = 0; i < snakeBody; i++) {
+            for(let i = 1; i < snakeBody; i++) {
                 snakeBody[i].classList.add('snakeBody');
+            }
+
+            //adding a section of the snake
+            if(document.querySelector('#apple').classList.contains('snakeHead')){
+                let a = snakeBody[snakeBody.length-1].getAttribute('posX');
+                let b = snakeBody[snakeBody.length-1].getAttribute('posY');
+
+                snakeBody.push(document.querySelector('[posX = "' + a + '"][posY = "' + b + '"'));
+
+                $('#apple').attr('id', '');
+
+                let applePosX = Math.round(Math.random() * (10 - 1) + 1);
+                let applePosY = Math.round(Math.random() * (10 - 1) + 1);
+        
+                let appleCoordinates = [applePosX, applePosY];
+        
+                let apple = document.querySelector('[posX = "' + appleCoordinates[0] + '"][posY = "' + appleCoordinates[1] + '"]');
+                    
+                while(apple.classList.contains('snakeBody')){
+                    apple = document.querySelector('[posX = "' + appleCoordinates[0] + '"][posY = "' + appleCoordinates[1] + '"]');
+                }
+            
+                apple.setAttribute('id', 'apple');
             }
 
         }
@@ -174,7 +195,10 @@ class Snake{
         });
         
         setInterval(move, 200);
+
+        //console.log(this.name);
         
+        return direction;
     }
 }
 
@@ -189,13 +213,6 @@ function gameLoop(field = fieldObj, snake = snakeObj, apple = appleObj){
     field.create();
     snake.create();
     apple.create();
-
-    setInterval(function(){
-        if(apple.check()){
-            $('#apple').removeAttr('id');
-            apple.create();
-        }
-    }, 200);
     
 }
 
@@ -203,7 +220,7 @@ function removeStyles(){
 
     $('.start-button').css({
         'transition':'2s ease',
-        'margin-top':'-45vh',
+        'margin-top':'-50vh',
         'opacity':'0',
     });
 
@@ -225,11 +242,10 @@ function giveStyles(){
     });
 }
 
-//on document ready
 $(document).ready(function(){
 
     $('.start-button').css({
-        'margin-top': '45vh',
+        'margin-top': '48vh',
     });
 
     //on click
